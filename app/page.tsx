@@ -16,8 +16,8 @@ export default function Home() {
                 Desarrolladora · S.A. de C.V.
               </div>
               <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-ink-900 leading-[1.05]">
-                Construimos lo que <br className="hidden sm:block" />
-                <span className="text-gradient-brand">queda en pie</span>.
+                Construimos <br className="hidden sm:block" />
+                <span className="text-gradient-brand">tu futuro</span>.
               </h1>
               <p className="mt-7 max-w-xl text-lg text-ink-500 leading-relaxed">
                 Obras públicas y privadas, edificación, infraestructura
