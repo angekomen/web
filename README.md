@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Desarrolladora Aangekomen — Web
 
-## Getting Started
+Sitio corporativo de Desarrolladora Aangekomen, S.A. de C.V.
 
-First, run the development server:
+Stack: **Next.js 16** (App Router, Turbopack) · **Tailwind 4** · **Supabase** (leads + blog) · **Resend** (notificación de leads) · **Vercel** (deploy).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Estructura
+
+```
+app/
+  page.tsx              # Home
+  nosotros/             # Quiénes somos
+  servicios/            # Listado de servicios + complementarios
+  servicios/[slug]/     # Detalle dinámico por servicio
+  blog/                 # Listado (lee de Supabase blog_posts)
+  contacto/             # Form de leads
+  api/contacto/         # POST → Supabase + Resend
+components/             # Header, Footer, Logo, ContactForm, ServiceIcon
+lib/
+  services.ts           # Data central de los 7 servicios + complementarios
+  supabase/server.ts    # Clientes (admin + public)
+supabase/schema.sql     # DDL: leads + blog_posts + RLS
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Variables de entorno
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Copia `.env.local.example` a `.env.local` y completa:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` — cliente público (lectura de blog).
+- `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` — cliente admin (inserción de leads desde la API route).
+- `RESEND_API_KEY`, `LEAD_NOTIFY_TO`, `LEAD_NOTIFY_FROM` — notificación por email de cada lead.
 
-## Learn More
+Si no defines Supabase, el sitio sigue funcionando: el blog muestra estado vacío y el formulario solo manda email vía Resend (si está configurado). Si tampoco hay Resend, queda solo log en server.
 
-To learn more about Next.js, take a look at the following resources:
+## Setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm install
+cp .env.local.example .env.local   # completar valores
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+En Supabase: abre el SQL editor, pega y ejecuta `supabase/schema.sql`.
 
-## Deploy on Vercel
+## Servicios curados
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Los 24 objetos del acta constitutiva se agrupan en 7 áreas comerciales más servicios complementarios. La fuente de verdad es `lib/services.ts` — para editar copy, capacidades o agregar/quitar servicios, ese archivo es el único punto de cambio.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Branding
+
+- Logo placeholder en `components/Logo.tsx` (SVG hexagonal con degradado morado→azul). Reemplazar por el SVG/PNG oficial cuando esté disponible.
+- Paleta en `app/globals.css` bajo `:root` — modificar las variables `--brand-purple-*` y `--brand-blue-*` para ajustar a la guía de marca exacta.
+
+## Validación previa a push
+
+Antes de hacer push:
+
+```bash
+npx tsc --noEmit
+npm run lint
+```
+
+Next.js 16 con Turbopack en dev **no valida tipos** — siempre correr `tsc` antes de subir cambios que toquen tipos.
+
+## Deploy en Vercel
+
+1. Crear proyecto en Vercel apuntando al repo.
+2. Cargar todas las variables de entorno del `.env.local.example`.
+3. Configurar dominio `aangekomen.mx` (o el que aplique).
