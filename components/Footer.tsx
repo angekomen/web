@@ -49,7 +49,11 @@ export function Footer() {
                   contacto@aangekomen.mx
                 </a>
               </li>
-              <li className="text-ink-300">Ciudad de México · Estado de México</li>
+              <li className="text-ink-300">
+                Calle Ferrocarril 120, Portezuelo
+                <br />
+                Cerro de San Pedro, San Luis Potosí · C.P. 78447
+              </li>
               <li className="pt-2">
                 <Link
                   href="/contacto"

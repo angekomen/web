@@ -46,7 +46,15 @@ export default function ContactoPage() {
               <InfoCard
                 Icon={MapPin}
                 title="Ubicación"
-                value="Ciudad de México · Estado de México"
+                value={
+                  <>
+                    Calle Ferrocarril 120, Portezuelo
+                    <br />
+                    Cerro de San Pedro, San Luis Potosí
+                    <br />
+                    C.P. 78447
+                  </>
+                }
               />
               <div className="rounded-2xl gradient-brand text-white p-7">
                 <h3 className="text-lg font-semibold">Tiempos de respuesta</h3>
@@ -76,7 +84,7 @@ function InfoCard({
 }: {
   Icon: React.ComponentType<{ size?: number; className?: string }>;
   title: string;
-  value: string;
+  value: React.ReactNode;
   href?: string;
 }) {
   const Wrap = href ? "a" : "div";
